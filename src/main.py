@@ -3,12 +3,16 @@ import uuid
 from collections import defaultdict
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 
 from src.models import Expense, ExpenseCreate
 from src.storage import load_expenses, save_expenses
 
 app = FastAPI(title="Smart Expense Tracker API")
 
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
 
 @app.post("/expenses", response_model=Expense, status_code=201)
 def create_expense(payload: ExpenseCreate) -> Expense:
