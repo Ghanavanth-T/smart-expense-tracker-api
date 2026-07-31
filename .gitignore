@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#Personal AI working notes - not for submission
+scratch_ai_log.md
