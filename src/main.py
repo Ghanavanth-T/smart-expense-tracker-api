@@ -2,7 +2,7 @@ import uuid
 
 from collections import defaultdict
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from src.models import Expense, ExpenseCreate
 from src.storage import load_expenses, save_expenses
@@ -48,3 +48,17 @@ def summary():
         "total": total, 
         "by_category": {k: round(v, 2) for k, v in by_category.items()}
     }
+
+
+@app.delete("/expenses/{expense_id}")
+def delete_expense(expense_id: str):
+    expenses = load_expenses()
+    original_len = len(expenses)
+
+    remaining = [e for e in expenses if e.get("id") != expense_id]
+
+    if len(remaining) == original_len:
+        raise HTTPException(status_code=404, detail="Expense not found")
+
+    save_expenses(remaining)
+    return {"message": "Expense deleted successfully"}
