@@ -25,5 +25,9 @@ def create_expense(payload: ExpenseCreate) -> Expense:
 
 
 @app.get("/expenses", response_model=list[Expense])
-def list_expenses() -> list[Expense]:
-    return [Expense(**item) for item in load_expenses()]
+def list_expenses(category: str | None = None) -> list[Expense]:
+    expenses = [Expense(**item) for item in load_expenses()]
+    if category is not None and category.strip():
+        wanted = category.strip().lower()
+        expenses = [e for e in expenses if e.category == wanted]
+    return expenses
