@@ -1,5 +1,6 @@
 import uuid
 
+from collections import defaultdict
 
 from fastapi import FastAPI
 
@@ -31,3 +32,19 @@ def list_expenses(category: str | None = None) -> list[Expense]:
         wanted = category.strip().lower()
         expenses = [e for e in expenses if e.category == wanted]
     return expenses
+
+
+@app.get("/expenses/summary")
+def summary():
+    expenses = [Expense(**item) for item in load_expenses()]
+    
+    total = round(sum(e.amount for e in expenses), 2)
+
+    by_category = defaultdict(float)
+    for e in expenses:
+        by_category[e.category] += e.amount
+    
+    return {
+        "total": total, 
+        "by_category": {k: round(v, 2) for k, v in by_category.items()}
+    }
