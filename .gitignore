@@ -219,3 +219,9 @@ __marimo__/
 
 #Personal AI working notes - not for submission
 scratch_ai_log.md
+
+data/
+.vscode/
+
+pyrightconfig.json
+.claude/
