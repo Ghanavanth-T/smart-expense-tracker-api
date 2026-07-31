@@ -7,7 +7,7 @@ JSON file.
 
 ## Requirements
 
-- Developed and tested on 3.14
+- Python 3.11 or newer (developed and tested on 3.14)
 
 ## Setup
 
